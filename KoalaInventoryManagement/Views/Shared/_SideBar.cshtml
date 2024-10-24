@@ -8,36 +8,45 @@
         <h3>Koala</h3>
         <ul>
             <li>
-                <a href="/Home" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
+                <a href="/Home"
+                    class="@(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
                     <i class="fa-solid fa-house fa-fw"></i>
                     <span>Home</span>
                 </a>
             </li>
-            @if (signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("WHManager1") || User.IsInRole("WHManager2") || User.IsInRole("WHManager3") || User.IsInRole("WHManager4") || User.IsInRole("WHManager5")))
-            {                
+            @if (signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("WHManager1") ||
+            User.IsInRole("WHManager2") || User.IsInRole("WHManager3") || User.IsInRole("WHManager4") ||
+            User.IsInRole("WHManager5")))
+            {
                 <li>
-                    <a href="/Dashboard" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Dashboard" ? "active" : "")">
+                    <a href="/Dashboard"
+                        class="@(ViewContext.RouteData.Values["controller"].ToString() == "Dashboard" ? "active" : "")">
                         <i class="fa-solid fa-chart-column fa-fw"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/Inventory" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Inventory" ? "active" : "")">
+                    <a href="/Inventory"
+                        class="@(ViewContext.RouteData.Values["controller"].ToString() == "Inventory" ? "active" : "")">
                         <i class="fa-solid fa-warehouse fa-fw"></i>
                         <span>Inventory</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/Warehouse" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Warehouse" ? "active" : "")">
+                    <a href="/Warehouse"
+                        class="@(ViewContext.RouteData.Values["controller"].ToString() == "Warehouse" ? "active" : "")">
                         <i class="fa-solid fa-boxes-stacked"></i>
                         <span>Warehouse</span>
                     </a>
                 </li>
             }
-            @if (signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("WHManager1") || User.IsInRole("WHManager2") || User.IsInRole("WHManager3") || User.IsInRole("WHManager4") || User.IsInRole("WHManager5") ))
+            @if (signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("WHManager1") ||
+            User.IsInRole("WHManager2") || User.IsInRole("WHManager3") || User.IsInRole("WHManager4") ||
+            User.IsInRole("WHManager5")))
             {
                 <li>
-                    <a href="/Suppliers" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Suppliers" ? "active" : "")">
+                    <a href="/Suppliers"
+                        class="@(ViewContext.RouteData.Values["controller"].ToString() == "Suppliers" ? "active" : "")">
                         <i class="fa-solid fa-truck-field"></i>
                         <span>Suppliers</span>
                     </a>
@@ -47,23 +56,19 @@
             @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
             {
                 <li>
-                    <a href="/Sales" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Sales" ? "active" : "")">
+                    <a href="/Sales"
+                        class="@(ViewContext.RouteData.Values["controller"].ToString() == "Sales" ? "active" : "")">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span>Sales</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/AdminDashboard" class="@(ViewContext.RouteData.Values["controller"].ToString() == "AdminDashboard" ? "active" : "")">
+                    <a href="/AdminDashboard"
+                        class="@(ViewContext.RouteData.Values["controller"].ToString() == "AdminDashboard" ? "active" : "")">
                         <i class="fa-solid fa-users fa-fw"></i>
                         <span>Admin Board</span>
                     </a>
-                </li>  
-                <li>
-                    <a href="/Reports" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Reports" ? "active" : "")">
-                        <i class="fa-solid fa-paperclip"></i>
-                        <span>Reports</span>
-                    </a>
-                </li>   
+                </li>
             }
         </ul>
     </div>
@@ -76,20 +81,24 @@
                     @* Add User Name Here *@
                     @if (User.Identity.Name.Length > 9)
                     {
-                        <strong class="shrink">@User.Identity.Name.Substring(0,8)</strong>
+                        <strong class="shrink">@User.Identity.Name.Substring(0, 8)</strong>
                     }
                     else
                     {
                         <strong class="shrink">@User.Identity.Name</strong>
                     }
-                    
+
                     <i class="fa-solid fa-angle-up"></i>
                 </a>
-                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(0px, -34.4px);" data-popper-placement="top-start">
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownMenuButton"
+                    style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(0px, -34.4px);"
+                    data-popper-placement="top-start">
                     @* Add user profile link here *@
                     <li><a class="dropdown-item" href="#">Profile</a></li>
                     <li><a class="dropdown-item" href="/Dashboard">Dashboard</a></li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li><a class="dropdown-item" asp-action="LogOut" asp-controller="Account">Sign out</a></li>
                 </ul>
             </div>
@@ -102,9 +111,13 @@
                     <strong class="shrink">Not Logged In</strong>
                     <i class="fa-solid fa-angle-up"></i>
                 </a>
-                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(0px, -34.4px);" data-popper-placement="top-start">
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownMenuButton"
+                    style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(0px, -34.4px);"
+                    data-popper-placement="top-start">
                     <li><a class="dropdown-item" asp-action="SignUp" asp-controller="Account">Register</a></li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li><a class="dropdown-item" asp-action="Login" asp-controller="Account">Log In</a></li>
                 </ul>
             </div>
