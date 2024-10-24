@@ -1,0 +1,115 @@
+﻿@inject SignInManager<ApplicationUser> signInManager
+<div class="main">
+    <div class="upper">
+        <div class="change-sidebar">
+            <i class="fa-solid fa-chevron-left" id="left"></i>
+            <i class="fa-solid fa-chevron-right" id="right"></i>
+        </div>
+        <h3>Koala</h3>
+        <ul>
+            <li>
+                <a href="/Home" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
+                    <i class="fa-solid fa-house fa-fw"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            @if (signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("WHManager1") || User.IsInRole("WHManager2") || User.IsInRole("WHManager3") || User.IsInRole("WHManager4") || User.IsInRole("WHManager5")))
+            {                
+                <li>
+                    <a href="/Dashboard" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Dashboard" ? "active" : "")">
+                        <i class="fa-solid fa-chart-column fa-fw"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Inventory" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Inventory" ? "active" : "")">
+                        <i class="fa-solid fa-warehouse fa-fw"></i>
+                        <span>Inventory</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Warehouse" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Warehouse" ? "active" : "")">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <span>Warehouse</span>
+                    </a>
+                </li>
+            }
+            @if (signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("WHManager1") || User.IsInRole("WHManager2") || User.IsInRole("WHManager3") || User.IsInRole("WHManager4") || User.IsInRole("WHManager5") ))
+            {
+                <li>
+                    <a href="/Suppliers" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Suppliers" ? "active" : "")">
+                        <i class="fa-solid fa-truck-field"></i>
+                        <span>Suppliers</span>
+                    </a>
+                </li>
+            }
+
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+            {
+                <li>
+                    <a href="/Sales" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Sales" ? "active" : "")">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span>Sales</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/AdminDashboard" class="@(ViewContext.RouteData.Values["controller"].ToString() == "AdminDashboard" ? "active" : "")">
+                        <i class="fa-solid fa-users fa-fw"></i>
+                        <span>Admin Board</span>
+                    </a>
+                </li>  
+                <li>
+                    <a href="/Reports" class="@(ViewContext.RouteData.Values["controller"].ToString() == "Reports" ? "active" : "")">
+                        <i class="fa-solid fa-paperclip"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>   
+            }
+        </ul>
+    </div>
+    <div class="lower">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="dropup">
+                <a id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="true">
+                    <img src="/Images/Account/loggedin.jpg" alt="user" class="rounded-circle me-2">
+                    @* Add User Name Here *@
+                    @if (User.Identity.Name.Length > 9)
+                    {
+                        <strong class="shrink">@User.Identity.Name.Substring(0,8)</strong>
+                    }
+                    else
+                    {
+                        <strong class="shrink">@User.Identity.Name</strong>
+                    }
+                    
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(0px, -34.4px);" data-popper-placement="top-start">
+                    @* Add user profile link here *@
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="/Dashboard">Dashboard</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" asp-action="LogOut" asp-controller="Account">Sign out</a></li>
+                </ul>
+            </div>
+        }
+        else
+        {
+            <div class="dropup">
+                <a id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="true">
+                    <img src="/Images/Account/loggedout.jpg" alt="user" class="rounded-circle me-2">
+                    <strong class="shrink">Not Logged In</strong>
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(0px, -34.4px);" data-popper-placement="top-start">
+                    <li><a class="dropdown-item" asp-action="SignUp" asp-controller="Account">Register</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" asp-action="Login" asp-controller="Account">Log In</a></li>
+                </ul>
+            </div>
+        }
+        <p>Made By <span>Koala Team</span></p>
+        <p>Copyrights at <span>2024 </span>©</p>
+    </div>
+</div>

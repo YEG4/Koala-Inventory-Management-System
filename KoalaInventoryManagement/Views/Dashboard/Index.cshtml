@@ -1,0 +1,217 @@
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+<link rel="stylesheet" href="~/css/Dashboard/dashboard.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+<div class="container-fluid p-0 dashboard">
+        <!-- Dashboard Header Start-->
+
+        <div class="content-header">
+            <div class=" heading">
+                <h1 class="header-title roboto">Welcome to Your Dashboard</h1>
+                <p class="header-subtitle roboto">Manage your data and get insights at a glance</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Header End-->
+
+        <div class="p-3">
+
+            <!-- Summary Widget Start-->
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="card gradient-2 betterboxshadow">
+                        <div class="card-body">
+                            <h3 class="card-title text-white">Warehouses</h3>
+                            <div class="d-inline-block">
+                                <h2 class="text-white">@Model.WarehousesCount</h2>
+                                <p class="text-white mb-0">April - October 2024</p>
+                            </div>
+                            <span class="float-right display-5 opacity-5 icon">
+                                <i class="fa-solid fa-warehouse"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="card gradient-1 betterboxshadow">
+                        <div class="card-body">
+                            <h3 class="card-title text-white">Total Products</h3>
+                            <div class="d-inline-block">
+                                <h2 class="text-white">@Model.TotalProducts</h2>
+                                <p class="text-white mb-0">April - October 2024</p>
+                            </div>
+                            <span class="float-right display-5 opacity-5 icon">
+                                <i class="fa fa-shopping-cart"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="card gradient-3 betterboxshadow">
+                        <div class="card-body">
+                            <h3 class="card-title text-white">Total Stock</h3>
+                            <div class="d-inline-block">
+                                <h2 class="text-white">@Model.TotalStock</h2>
+                                <p class="text-white mb-0">April - October 2024</p>
+                            </div>
+                            <span class="float-right display-5 opacity-5 icon">
+                                <i class="fa-solid fa-cubes-stacked"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="card gradient-4 betterboxshadow">
+                        <div class="card-body">
+                            <h3 class="card-title text-white">Customer Satisfaction</h3>
+                            <div class="d-inline-block">
+                                <h2 class="text-white">99%</h2>
+                                <p class="text-white mb-0">April - October 2024</p>
+                            </div>
+                            <span class="float-right display-5 opacity-5 icon">
+                                <i class="fa fa-heart"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Summary Widget End-->
+            <!-- Warehouses Info Start-->
+            <div class="warehouses-info-section">
+                <!-- Donut & Pie charts Start-->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Stock By Warehouse</h4>
+                                <div id="warehousesStock" class="d-flex align-items-center justify-content-center"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card h-100-30px">
+                            <div class="card-body ">
+                                <h4 class="card-title pb-4">Product By Warehouse</h4>
+                                <div class="pie-chart">
+                                    <canvas id="warehousesProducts"></canvas>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Donut & Pie charts End-->
+            </div>
+            <!-- Warehouses Info End-->
+            <div class="button-container">
+            @for (int i = 0; i < Model.Warehouses.Count(); i++)
+                {
+                <button onclick="warehouseChanged(@Model.Warehouses[i].Id, this)" class="wh-btn @(i == 0 ? "active" : "")">
+                    @Model.Warehouses[i].Name
+                </button>
+                }
+            </div>
+            <!-- Products Info Per Warehouse Start-->
+            <div class="product-section">
+                <!-- Donut & Pie charts Start-->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card h-100-30px">
+                            <div class="card-body ">
+                                <h4 class="card-title pb-4">Products By Category</h4>
+                                <div class="pie-chart">
+                                    <canvas id="pieChart"></canvas>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Products By Supplier</h4>
+                                <div id="Product-By-Supplier" class="d-flex align-items-center justify-content-center"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Donut & Pie charts End-->
+                <!-- Low Stock Notification Start-->
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <div id="lowStockCount">0</div>
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <span id="whName">Section One</span>&nbsp;Low Stock Products
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Minimum Stock</th>
+                                            <th scope="col">Current Stock</th>
+                                            <th scope="col">Optimal Stock</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="lowStockProductsTable">
+                                        @* <tr>
+                                            <th scope="row">1</th>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>mdo</td>
+                                            </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>fat</td>
+                                        </tr> *@
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Low Stock Notification End-->
+                <!-- Bar chart Start-->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="area-chart card-body">
+                            <h4 class="card-title">Average Stock By Category</h4>
+                            <div id="average-stock" class="d-flex align-items-center justify-content-center"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bar chart End-->
+            </div>
+         <!-- Products Info Per Warehouse End-->
+            <div class="sales-section w-100">
+                <!-- Area chart Start-->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="area-chart card-body">
+                            <h4 class="card-title">Profits By Category</h4>
+                        <div id="profits-by-category" class="d-flex align-items-center justify-content-center"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Area chart End-->
+            </div>
+
+        </div>
+</div>
+
+@section Scripts {
+    <script src="/js/Dashboard/Chart.bundle.min.js"></script>
+    <script src="/js/Dashboard/raphael.min.js"></script>
+    <script src="/js/Dashboard/morris.min.js"></script>
+    <script src="/js/Dashboard/dashboard.js"></script>
+}

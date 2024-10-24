@@ -1,0 +1,83 @@
+﻿@model SignUpViewModel
+
+@{
+    ViewData["Title"] = "SignUp";
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/Account/SignUp.css" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<!-- Font Awesome Kit -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet" />
+
+<div class="main">
+    <div class="form">
+        <h2>Create Account</h2>
+        <form asp-action="SignUp" method="post">
+            <div class="fname">
+                <input type="text" required asp-for="FirstName">
+                <label for="FirstName">First Name</label>
+            </div>
+            <div class="lname">
+                <input type="text" required asp-for="LastName">
+                <label for="LastName">Last Name</label>
+            </div>
+            <div class="email">
+                <input type="email" required asp-for="Email">
+                <label for="Email">Email Address</label>
+            </div>
+            <div class="phoneNo">
+                <input type="text" required asp-for="phoneNumber">
+                <label for="phoneNumber">Phone Number</label>
+            </div>
+            <div class="password">
+                <input class="passwordstuff" type="password" required asp-for="Password">
+                <label for="Password">Password</label>
+                <i onclick="showOrHidePassword()" class="fa-regular fa-eye"></i>
+                <i onclick="showOrHidePassword()" class="fa-regular fa-eye-slash"></i>
+            </div>
+            <div class="password-rules">
+                <h4>Password must contain:</h4>
+                <div id="pwMinLength" class="rule">
+                    <i class="fa-solid"></i>
+                    <p>Minimum 8 characters</p>
+                </div>
+                <div id="lowerUpper" class="rule">
+                    <i class="fa-solid"></i>
+                    <p>At least 1 lower case and 1 upper case character</p>
+                </div>
+                <div id="numbermin" class="rule">
+                    <i class="fa-solid"></i>
+                    <p>At least 1 number</p>
+                </div>
+                <div id="specialChar" class="rule">
+                    <i class="fa-solid"></i>
+                    <p>At least 1 special character from - + _ ! &#64; # $ % ^ & * . , ? ( )</p>
+                </div>
+            </div>
+            <div class="confirmP">
+                <input class="passwordstuff" type="password" required asp-for="ConfirmPassword">
+                <label for="ConfirmPassword">Re-enter Password</label>
+                <i onclick="showOrHidePassword()" class="fa-regular fa-eye"></i>
+                <i onclick="showOrHidePassword()" class="fa-regular fa-eye-slash"></i>
+            </div>
+            <span id="confirmPasswordError" class="error-message"></span> <!-- Error message placeholder -->
+            <div class="checks">
+                <input type="checkbox" id="subscribe" value="subscribe" formControlName="newsletter" />
+                <label for="subscribe">I Agree the terms & Conditions</label>
+            </div>
+            <input type="submit" value="Create Account" />
+            <p>
+                Have an account? <a href="/Account/Login">Sign In</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/Account/SignUp.js"></script>
+<script src="https://kit.fontawesome.com/831317d937.js" crossorigin="anonymous"></script>
